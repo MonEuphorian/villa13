@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kasa Şifre Girişi</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        #safe {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background-image: url('https://c7.alamy.com/comp/W13H30/steel-safe-with-login-and-password-screen-3d-illustration-W13H30.jpg'); /* Kasa resmi URL'sini buraya ekleyin */
+            background-size: cover;
+            position: relative;
+        }
+        #indicator {
+            width: 50px;
+            height: 50px;
+            background-color: grey;
+            border-radius: 50%;
+            position: absolute;
+            top: 50px;
+            left: 77px;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 24px;
+            color: green;
+            display: none;
+        }
+        #inputArea {
+            margin-top: 20px;
+        }
+        #inputArea input {
+            font-size: 24px;
+            width: 150px;
+            text-align: center;
+        }
+        #lockMessage {
+            margin-top: 20px;
+            font-size: 18px;
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Online Şifre Girişi</h1>
+
+<div id="safe">
+    <div id="indicator"></div>
+</div>
+
+<div id="message">Kilit açıldı</div>
+
+<div id="inputArea">
+    <input type="password" id="codeInput" maxlength="4" placeholder="Şifre">
+    <br><br>
+    <button onclick="checkCode()">Giriş</button>
+</div>
+
+<div id="lockMessage">Kasa kilitlendi. Lütfen 5 dakika bekleyin.</div>
+
+<script>
+    let correctCode = "6161";
+    let attemptCount = 0;
+    let isLocked = false;
+
+    function checkCode() {
+        if (isLocked) {
+            return;
+        }
+        let inputCode = document.getElementById("codeInput").value;
+        let indicator = document.getElementById("indicator");
+
+        if (inputCode === correctCode) {
+            indicator.style.backgroundColor = "green";
+            document.getElementById("message").style.display = "block";
+            document.getElementById("inputArea").style.display = "none";
+        } else {
+            attemptCount++;
+            indicator.style.backgroundColor = "red";
+            if (attemptCount >= 3) {
+                lockSafe();
+            }
+        }
+        document.getElementById("codeInput").value = "";
+    }
+
+    function lockSafe() {
+        isLocked = true;
+        document.getElementById("lockMessage").style.display = "block";
+        document.getElementById("inputArea").style.display = "none";
+        setTimeout(function() {
+            isLocked = false;
+            attemptCount = 0;
+            document.getElementById("lockMessage").style.display = "none";
+            document.getElementById("inputArea").style.display = "block";
+            document.getElementById("indicator").style.backgroundColor = "black";
+        }, 300000); // 5 dakika = 300000 milisaniye
+    }
+</script>
+
+</body>
+</html>
+
