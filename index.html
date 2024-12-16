@@ -9,12 +9,13 @@
             font-family: Arial, sans-serif;
             text-align: center;
             padding-top: 50px;
+            overflow: hidden;
         }
         #safe {
             width: 200px;
             height: 200px;
             margin: 0 auto;
-            background-image: url('https://c7.alamy.com/comp/W13H30/steel-safe-with-login-and-password-screen-3d-illustration-W13H30.jpg'); /* Kasa resmi URL'sini buraya ekleyin */
+            background-image: url('https://c7.alamy.com/comp/W13H30/steel-safe-with-login-and-password-screen-3d-illustration-W13H30.jpg');
             background-size: cover;
             position: relative;
         }
@@ -47,6 +48,39 @@
             color: red;
             display: none;
         }
+        #fullscreenImage {
+            display: none;
+            position: fixed;
+            top: 5%;
+            left: 5%;
+            width: 90%;
+            height: 90%;
+            background-size: cover;
+            background-position: center;
+            z-index: 999;
+            background-color: black;
+        }
+        #nextButton {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: black;
+            font-size: 24px;
+            text-align: center;
+            line-height: 50px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 1000;
+            display: none;
+        }
+        #timer {
+            font-size: 20px;
+            color: blue;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -65,27 +99,49 @@
     <button onclick="checkCode()">Giriş</button>
 </div>
 
-<div id="lockMessage">Kasa kilitlendi. Lütfen 5 dakika bekleyin.</div>
+<div id="lockMessage">
+    Kasa kilitlendi. Lütfen <span id="timer">5:00</span> dakika bekleyin.
+</div>
+
+<div id="fullscreenImage"></div>
+<div id="nextButton" onclick="showNextImage()">&#8594;</div>
+
+<audio id="successSound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+<audio id="errorSound" src="https://www.soundjay.com/button/beep-10.wav"></audio>
+<audio id="lockSound" src="https://www.soundjay.com/button/beep-05.wav"></audio>
 
 <script>
     let correctCode = "6161";
     let attemptCount = 0;
     let isLocked = false;
+    let timerElement = document.getElementById("timer");
+    let lockDuration = 300; // 5 dakika = 300 saniye
+    const images = [
+        'https://via.placeholder.com/800x600.png?text=Resim+1',
+        'https://via.placeholder.com/800x600.png?text=Resim+2',
+        'https://via.placeholder.com/800x600.png?text=Resim+3',
+        'https://via.placeholder.com/800x600.png?text=Resim+4'
+    ];
+    let currentImageIndex = 0;
 
     function checkCode() {
-        if (isLocked) {
-            return;
-        }
+        if (isLocked) return;
+        
         let inputCode = document.getElementById("codeInput").value;
         let indicator = document.getElementById("indicator");
-
+        let successSound = document.getElementById("successSound");
+        let errorSound = document.getElementById("errorSound");
+        
         if (inputCode === correctCode) {
             indicator.style.backgroundColor = "green";
             document.getElementById("message").style.display = "block";
             document.getElementById("inputArea").style.display = "none";
+            successSound.play();
+            showFullScreenImage();
         } else {
             attemptCount++;
             indicator.style.backgroundColor = "red";
+            errorSound.play();
             if (attemptCount >= 3) {
                 lockSafe();
             }
@@ -97,16 +153,45 @@
         isLocked = true;
         document.getElementById("lockMessage").style.display = "block";
         document.getElementById("inputArea").style.display = "none";
-        setTimeout(function() {
-            isLocked = false;
-            attemptCount = 0;
-            document.getElementById("lockMessage").style.display = "none";
-            document.getElementById("inputArea").style.display = "block";
-            document.getElementById("indicator").style.backgroundColor = "black";
-        }, 300000); // 5 dakika = 300000 milisaniye
+        document.getElementById("indicator").style.backgroundColor = "black";
+        document.getElementById("lockSound").play();
+        
+        let timer = lockDuration;
+        const countdown = setInterval(function() {
+            const minutes = Math.floor(timer / 60);
+            const seconds = timer % 60;
+            timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            timer--;
+            if (timer < 0) {
+                clearInterval(countdown);
+                unlockSafe();
+            }
+        }, 1000);
+    }
+
+    function unlockSafe() {
+        isLocked = false;
+        attemptCount = 0;
+        document.getElementById("lockMessage").style.display = "none";
+        document.getElementById("inputArea").style.display = "block";
+        document.getElementById("indicator").style.backgroundColor = "grey";
+    }
+
+    function showFullScreenImage() {
+        const fullscreenImage = document.getElementById("fullscreenImage");
+        fullscreenImage.style.backgroundImage = `url(${images[currentImageIndex]})`;
+        fullscreenImage.style.display = "block";
+        document.getElementById("nextButton").style.display = "block";
+    }
+
+    function showNextImage() {
+        currentImageIndex++;
+        if (currentImageIndex >= images.length) {
+            currentImageIndex = 0;
+        }
+        document.getElementById("fullscreenImage").style.backgroundImage = `url(${images[currentImageIndex]})`;
     }
 </script>
 
 </body>
 </html>
-
