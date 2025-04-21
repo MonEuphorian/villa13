@@ -817,22 +817,27 @@
   <!-- Ses Efektleri -->
   <!-- 1. Pin doğru hizaya geldiğinde -->
   <audio id="clickSound" preload="auto">
-    <source src="./sounds/click.wav" type="audio/wav">
+    <source src="click.WAV" type="audio/wav">
   </audio>
   
   <!-- 2. Pin düştüğünde -->
   <audio id="dropSound" preload="auto">
-    <source src="./sounds/drop.wav" type="audio/wav">
+    <source src="drop.WAV" type="audio/wav">
   </audio>
   
   <!-- 3. Kilit açıldığında -->
   <audio id="unlockSound" preload="auto">
-    <source src="./sounds/unlock.wav" type="audio/wav">
+    <source src="unlock.WAV" type="audio/wav">
   </audio>
 
   <!-- 4. Yukarı ok tuşuna basıldığında -->
   <audio id="upSound" preload="auto">
     <source src="up.WAV" type="audio/wav">
+  </audio>
+
+  <!-- 5. Resim değiştirme sesi -->
+  <audio id="pageSound" preload="auto">
+    <source src="page.WAV" type="audio/wav">
   </audio>
 
   <!-- Lightbox -->
@@ -1397,6 +1402,7 @@ closeButton.addEventListener('click', hideLightbox);
 
 prevButton.addEventListener('click', (e) => {
   e.stopPropagation();
+  playSound('pageSound');  // Resim değiştirme sesi
   currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
   lightboxImage.src = images[currentImageIndex];
   resetZoom();
@@ -1404,6 +1410,7 @@ prevButton.addEventListener('click', (e) => {
 
 nextButton.addEventListener('click', (e) => {
   e.stopPropagation();
+  playSound('pageSound');  // Resim değiştirme sesi
   currentImageIndex = (currentImageIndex + 1) % images.length;
   lightboxImage.src = images[currentImageIndex];
   resetZoom();
