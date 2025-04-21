@@ -12,9 +12,9 @@
     --pin-h: 180px;
     --shear-y: 108px;
     --main-bg: #1a1a2e;
-    --lock-bg: #c49355;
+    --lock-bg: #d4b06a;
     --pin-color: #3f3f5f;
-    --pin-border: #2a2a2a;
+    --pin-border: #8b6d3d;
     --key-pin: #ff4040;
     --driver-pin: #2176ff;
     --spring-color: #666;
@@ -104,7 +104,7 @@
     position: relative;
     display: flex;
     gap: 10px;
-    background: linear-gradient(145deg, var(--lock-bg), #a67a45);
+    background: linear-gradient(145deg, #d4b06a, #b39154);
     padding: 40px 30px;
     border-radius: 12px;
     box-shadow: 
@@ -118,19 +118,61 @@
     user-select: none;
   }
 
+  .lock-overlay {
+    position: absolute;
+    top: -20px;  /* Üst boşluğu ayarla */
+    left: -15px; /* Sol boşluğu ayarla */
+    right: -15px; /* Sağ boşluğu ayarla */
+    bottom: -20px; /* Alt boşluğu ayarla */
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQCAYAAACAvzbMAAAABHNCSVQICAgIfAhkiAAAABl0RFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDZFNDEwNjlGNzFEMTFFM0JEQ0VDRTM1N0RCMzMyMkIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDZFNDEwNkFGNzFEMTFFM0JEQ0VDRTM1N0RCMzMyMkIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0NkU0MTA2N0Y3MUQxMUUzQkRDRUNFMzU3REIzMzIyQiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0NkU0MTA2OEY3MUQxMUUzQkRDRUNFMzU3REIzMzIyQiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pv/uAA5BZG9iZQBkwAAAAAH/2wCEAAYEBAQFBAYFBQYJBgUGCQsIBgYICwwKCgsKCgwQDAwMDAwMEAwODxAPDgwTExQUExMcGxsbHB8fHx8fHx8fHx8BBwcHDQwNGBAQGBoVERUaHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fH//AABEIAIIAggMBEQACEQEDEQH/xAGiAAAABwEBAQEBAAAAAAAAAAAEBQMCBgEABwgJCgsBAAICAwEBAQEBAAAAAAAAAAEAAgMEBQYHCAkKCxAAAgEDAwIEAgYHAwQCBgJzAQIDEQQABSESMUFRBhNhInGBFDKRoQcVsUIjwVLR4TMWYvAkcoLxJUM0U5KismNzwjVEJ5OjszYXVGR0w9LiCCaDCQoYGYSURUaktFbTVSga8uPzxNTk9GV1hZWltcXV5fVmdoaWprbG1ub2N0dXZ3eHl6e3x9fn9zhIWGh4iJiouMjY6PgpOUlZaXmJmam5ydnp+So6SlpqeoqaqrrK2ur6EQACAgECBAQDBAUGBwcGBTUBAAIRAyEEEjFBUWEFE3EiMoGRFKGxQiPBUtHwMyRi4XKCkkNTFWNzNPElBhaisoMHJjXC0kSTVKMXZEVVNnRl4vKzhMPTdePzRpSkhbSVxNTk9KW1xdXl9VZmdoaWprbG1ub2JzdHV2d3h5ent8f/2gAMAwEAAhEDEQA/APVUkkkkpSSSSSlJJJJKUkkkkpSSSSSlJJJJKUkkkkpSSSSSlJJJJKUkkkkp//9D1VJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSU//9H1VJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSU//9L1VJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSU//9P1VJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSU//9T1VJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSU//9X1VJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSU//9b1VJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSU//9f1VJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSU//9D1VJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSU//9k=');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 1;
+  }
+
   .pin {
     width: var(--pin-w);
     height: var(--pin-h);
-    background: linear-gradient(to right, #333, #444, #333);
-    border: 2px solid var(--pin-border);
+    background: #2a2a2a;
+    border: 2px solid #8b6d3d;
     border-radius: 8px;
     overflow: hidden;
     position: relative;
     transition: transform 0.2s ease;
     cursor: pointer;
     box-shadow: 
-      inset 0 0 10px rgba(0,0,0,0.3),
+      inset 0 0 10px rgba(0,0,0,0.5),
       0 2px 5px rgba(0,0,0,0.2);
+  }
+
+  .pin.active-pin {
+    border: 2px solid var(--success-color);
+    box-shadow: 
+      inset 0 0 10px rgba(0,0,0,0.5),
+      0 0 15px rgba(0,255,157,0.3);
+  }
+
+  .pin::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(to bottom, #d4b06a, #8b6d3d);
+    border-radius: 6px 6px 0 0;
+  }
+
+  .pin::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(to top, #d4b06a, #8b6d3d);
+    border-radius: 0 0 6px 6px;
   }
 
   .pin:hover {
@@ -203,10 +245,12 @@
     top: 50%;
     width: 20px;
     height: 50px;
-    background: linear-gradient(to left, var(--lock-bg), #8b5e2e);
+    background: linear-gradient(to left, #d4b06a, #8b6d3d);
     transform: translateY(-50%);
     border-radius: 5px 0 0 5px;
-    box-shadow: inset 2px 0 5px rgba(0,0,0,0.2);
+    box-shadow: 
+      inset 2px 0 5px rgba(0,0,0,0.2),
+      -2px 0 5px rgba(0,0,0,0.2);
     z-index: 1;
   }
 
@@ -217,7 +261,7 @@
     left: -10px;
     right: -10px;
     height: 40px;
-    background: linear-gradient(to bottom, var(--lock-bg), #8b5e2e);
+    background: linear-gradient(to bottom, #d4b06a, #8b6d3d);
     border-radius: 0 0 12px 12px;
     box-shadow: 
       inset 0 2px 5px rgba(255,255,255,0.2),
@@ -291,10 +335,12 @@
     top: 50%;
     width: 15px;
     height: 35px;
-    background: linear-gradient(to right, var(--lock-bg), #8b5e2e);
+    background: linear-gradient(to right, #d4b06a, #8b6d3d);
     transform: translateY(-50%);
     border-radius: 0 5px 5px 0;
-    box-shadow: inset -2px 0 5px rgba(0,0,0,0.2);
+    box-shadow: 
+      inset -2px 0 5px rgba(0,0,0,0.2),
+      2px 0 5px rgba(0,0,0,0.2);
   }
 
   .lock-controls {
@@ -349,8 +395,8 @@
 
   .tension-control {
     position: absolute;
-    left: -120px;
-    top: 0;
+    left: -70px;
+    top: 105px;
   }
 
   .tension-btn {
@@ -538,6 +584,35 @@
       right: 0;
       top: 105px;
     }
+    .lock-overlay {
+      top: -15px;
+      left: -10px;
+      right: -10px;
+      bottom: -15px;
+    }
+    .pin::before,
+    .pin::after {
+      height: 6px;
+    }
+    .popup-images {
+        top: 10px;
+        max-width: 260px;
+    }
+    
+    .popup-image {
+        width: 80px;
+        height: 50px;
+    }
+
+    .tension-control {
+        left: -80px;
+        top: 105px;
+    }
+
+    .reset-container {
+        right: 0;
+        top: 105px;
+    }
   }
 
   /* Lightbox Stili */
@@ -589,15 +664,19 @@
   .popup-images {
     display: none;
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     gap: 10px;
     z-index: 999;
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
   }
 
   .popup-image {
-    width: 150px;
-    height: 100px;
+    width: 100px;
+    height: 60px;
     object-fit: cover;
     cursor: pointer;
     border: 2px solid white;
@@ -691,6 +770,7 @@
     </div>
 
     <div class="lock" id="lock">
+      <div class="lock-overlay"></div>
       <div class="pin" id="pin0">
         <div class="spring"></div>
         <div class="alt" id="a0"></div>
