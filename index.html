@@ -357,6 +357,7 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 30px;
+    position: relative;
   }
 
   .control-btn {
@@ -395,8 +396,8 @@
 
   .tension-control {
     position: absolute;
-    left: -70px;
-    top: 105px;
+    left: -140px;  /* Sol ok butonu ile aynı hizada */
+    top: 0;  /* Direction controls ile aynı yükseklikte */
   }
 
   .tension-btn {
@@ -444,7 +445,7 @@
   .reset-container {
     position: absolute;
     right: 0;
-    top: 95px;
+    top: 105px;
   }
 
   .reset-btn {
@@ -578,7 +579,7 @@
       font-size: 15px;
     }
     .tension-control {
-      left: -130px;
+      left: -150px;  /* Mobilde sol ok butonu ile aynı hizada */
     }
     .reset-container {
       right: 0;
@@ -602,16 +603,6 @@
     .popup-image {
         width: 80px;
         height: 50px;
-    }
-
-    .tension-control {
-        left: -80px;
-        top: 105px;
-    }
-
-    .reset-container {
-        right: 0;
-        top: 105px;
     }
   }
 
