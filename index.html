@@ -524,101 +524,42 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.95);
     z-index: 1000;
-    justify-content: center;
-    align-items: center;
-    touch-action: none;
+    overflow: hidden;
   }
 
   .lightbox-content {
-    position: relative;
-    max-width: 95%;
-    max-height: 95%;
-    touch-action: pan-x pan-y pinch-zoom;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
+  }
+
+  .lightbox-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    touch-action: none;
   }
 
   .lightbox-image {
     max-width: 100%;
-    max-height: 90vh;
+    max-height: 100%;
     object-fit: contain;
-    cursor: zoom-in;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: pan-x pan-y pinch-zoom;
     transform-origin: center;
-    transition: transform 0.3s ease;
-  }
-
-  .lightbox-image.zoomed {
-    cursor: zoom-out;
-  }
-
-  .lightbox-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
-    box-sizing: border-box;
-    pointer-events: none;
-  }
-
-  .nav-button {
-    pointer-events: auto;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: none;
-    padding: 15px 25px;
-    cursor: pointer;
-    border-radius: 12px;
-    font-size: 24px;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-    touch-action: manipulation;
-  }
-
-  .close-button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    z-index: 1001;
-    touch-action: manipulation;
-  }
-
-  .close-button:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
-
-  @media (max-width: 600px) {
-    .lightbox-content {
-      max-width: 98%;
-    }
-    
-    .nav-button {
-      padding: 12px 20px;
-      font-size: 20px;
-    }
-    
-    .close-button {
-      top: 10px;
-      right: 10px;
-    }
+    transition: transform 0.2s ease-out;
+    touch-action: none;
+    will-change: transform;
   }
 
   .popup-images {
@@ -628,7 +569,6 @@
     right: 20px;
     gap: 10px;
     z-index: 999;
-    touch-action: manipulation;
   }
 
   .popup-image {
@@ -639,11 +579,78 @@
     border: 2px solid white;
     border-radius: 5px;
     transition: transform 0.3s;
-    touch-action: manipulation;
   }
 
   .popup-image:hover {
     transform: scale(1.1);
+  }
+
+  .lightbox-nav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    pointer-events: none;
+    z-index: 1002;
+  }
+
+  .nav-button {
+    pointer-events: auto;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .nav-button:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .close-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    font-size: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 1002;
+  }
+
+  .close-button:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  @media (max-width: 600px) {
+    .nav-button, .close-button {
+      width: 44px;
+      height: 44px;
+      font-size: 20px;
+    }
+    
+    .close-button {
+      top: 10px;
+      right: 10px;
+    }
   }
 </style>
 </head>
@@ -732,7 +739,9 @@
   <div class="lightbox-container" id="lightbox">
     <button class="close-button" id="closeButton">×</button>
     <div class="lightbox-content">
-      <img src="" alt="Kilit Görüntüsü" class="lightbox-image" id="lightboxImage">
+      <div class="lightbox-image-container">
+        <img src="" alt="Kilit Görüntüsü" class="lightbox-image" id="lightboxImage">
+      </div>
       <div class="lightbox-nav">
         <button class="nav-button" id="prevButton">←</button>
         <button class="nav-button" id="nextButton">→</button>
@@ -1105,14 +1114,20 @@ const images = [
   "https://images.unsplash.com/photo-1503792501406-2c40da09e1e2?w=1200"
 ];
 let currentImageIndex = 0;
-let isZoomed = false;
-let startTouches = null;
 let currentScale = 1;
-let currentTranslateX = 0;
-let currentTranslateY = 0;
+let startScale = 1;
+let currentX = 0;
+let currentY = 0;
+let startX = 0;
+let startY = 0;
+let imageStartX = 0;
+let imageStartY = 0;
+let lastTapTime = 0;
 
 // Elementleri seç
 const lightbox = document.getElementById('lightbox');
+const lightboxContent = document.querySelector('.lightbox-content');
+const lightboxImageContainer = document.querySelector('.lightbox-image-container');
 const lightboxImage = document.getElementById('lightboxImage');
 const popupImages = document.getElementById('popupImages');
 const prevButton = document.getElementById('prevButton');
@@ -1130,8 +1145,6 @@ function showLightbox(index) {
   lightboxImage.src = images[currentImageIndex];
   lightbox.style.display = 'flex';
   resetZoom();
-  
-  // Lightbox açıldığında popup görüntüleri gizle
   popupImages.style.display = 'none';
 }
 
@@ -1139,60 +1152,59 @@ function showLightbox(index) {
 function hideLightbox() {
   lightbox.style.display = 'none';
   resetZoom();
-  // Lightbox kapandığında popup görüntüleri tekrar göster
-  if(opened) { // Sadece kilit açıksa göster
+  if(opened) {
     popupImages.style.display = 'flex';
   }
 }
 
 // Zoom'u sıfırla
 function resetZoom() {
-  isZoomed = false;
   currentScale = 1;
-  currentTranslateX = 0;
-  currentTranslateY = 0;
-  lightboxImage.style.transform = `translate(0, 0) scale(1)`;
-  lightboxImage.classList.remove('zoomed');
+  currentX = 0;
+  currentY = 0;
+  updateImageTransform();
 }
 
-// Görüntüyü yakınlaştır/uzaklaştır
-function toggleZoom(event) {
-  if (event) {
-    event.stopPropagation();
-  }
-  
-  if (!isZoomed) {
-    currentScale = 2;
-    if (event && event.type === 'click') {
-      // Tıklama pozisyonuna göre yakınlaştır
-      const rect = lightboxImage.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      currentTranslateX = (rect.width / 2 - x) * (currentScale - 1) / currentScale;
-      currentTranslateY = (rect.height / 2 - y) * (currentScale - 1) / currentScale;
-    }
-  } else {
-    resetZoom();
-  }
-  
-  lightboxImage.style.transform = `translate(${currentTranslateX}px, ${currentTranslateY}px) scale(${currentScale})`;
-  lightboxImage.classList.toggle('zoomed', isZoomed);
-  isZoomed = !isZoomed;
+// Görüntü dönüşümünü güncelle
+function updateImageTransform() {
+  requestAnimationFrame(() => {
+    lightboxImage.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
+  });
 }
 
-// Dokunma olayları için yardımcı fonksiyonlar
-function getDistance(touches) {
+// İki nokta arası mesafe
+function getDistance(touch1, touch2) {
   return Math.hypot(
-    touches[1].clientX - touches[0].clientX,
-    touches[1].clientY - touches[0].clientY
+    touch2.clientX - touch1.clientX,
+    touch2.clientY - touch1.clientY
   );
 }
 
-function getMidpoint(touches) {
+// İki nokta arası orta nokta
+function getMidpoint(touch1, touch2) {
   return {
-    x: (touches[0].clientX + touches[1].clientX) / 2,
-    y: (touches[0].clientY + touches[1].clientY) / 2
+    x: (touch1.clientX + touch2.clientX) / 2,
+    y: (touch1.clientY + touch2.clientY) / 2
   };
+}
+
+// Sınırları kontrol et
+function checkBounds() {
+  const rect = lightboxImage.getBoundingClientRect();
+  const containerRect = lightboxImageContainer.getBoundingClientRect();
+  
+  const maxX = (rect.width * currentScale - containerRect.width) / 2;
+  const maxY = (rect.height * currentScale - containerRect.height) / 2;
+  
+  if (currentScale <= 1) {
+    currentX = 0;
+    currentY = 0;
+  } else {
+    currentX = Math.min(Math.max(currentX, -maxX), maxX);
+    currentY = Math.min(Math.max(currentY, -maxY), maxY);
+  }
+  
+  updateImageTransform();
 }
 
 // Event listeners
@@ -1202,15 +1214,85 @@ popupImages.querySelectorAll('.popup-image').forEach(img => {
   });
 });
 
-lightboxImage.addEventListener('click', toggleZoom);
+// Çift tıklama ile zoom
+lightboxImage.addEventListener('click', (e) => {
+  const now = Date.now();
+  if (now - lastTapTime < 300) { // Çift tıklama
+    e.preventDefault();
+    if (currentScale === 1) {
+      const rect = lightboxImage.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      currentScale = 2;
+      currentX = (rect.width / 2 - x) * (currentScale - 1);
+      currentY = (rect.height / 2 - y) * (currentScale - 1);
+    } else {
+      resetZoom();
+    }
+    updateImageTransform();
+  }
+  lastTapTime = now;
+});
 
-closeButton.addEventListener('click', hideLightbox);
+// Dokunmatik kontroller
+lightboxImageContainer.addEventListener('touchstart', (e) => {
+  if (e.touches.length === 2) {
+    e.preventDefault();
+    startScale = currentScale;
+    const dist = getDistance(e.touches[0], e.touches[1]);
+    imageStartX = currentX;
+    imageStartY = currentY;
+    startX = dist;
+    const midpoint = getMidpoint(e.touches[0], e.touches[1]);
+    startY = midpoint;
+  } else if (e.touches.length === 1) {
+    imageStartX = currentX;
+    imageStartY = currentY;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }
+}, { passive: false });
 
-lightbox.addEventListener('click', (e) => {
-  if (e.target === lightbox) {
-    hideLightbox();
+lightboxImageContainer.addEventListener('touchmove', (e) => {
+  e.preventDefault();
+  if (e.touches.length === 2) {
+    // Yakınlaştırma/uzaklaştırma
+    const dist = getDistance(e.touches[0], e.touches[1]);
+    const midpoint = getMidpoint(e.touches[0], e.touches[1]);
+    
+    currentScale = Math.min(Math.max(startScale * (dist / startX), 1), 5);
+    
+    if (currentScale > 1) {
+      const dragX = midpoint.x - startY.x;
+      const dragY = midpoint.y - startY.y;
+      currentX = imageStartX + dragX;
+      currentY = imageStartY + dragY;
+    }
+    
+    checkBounds();
+  } else if (e.touches.length === 1 && currentScale > 1) {
+    // Kaydırma
+    const dragX = e.touches[0].clientX - startX;
+    const dragY = e.touches[0].clientY - startY;
+    currentX = imageStartX + dragX;
+    currentY = imageStartY + dragY;
+    
+    checkBounds();
+  }
+}, { passive: false });
+
+lightboxImageContainer.addEventListener('touchend', (e) => {
+  if (e.touches.length === 0) {
+    if (currentScale <= 1) {
+      resetZoom();
+    } else {
+      checkBounds();
+    }
   }
 });
+
+closeButton.addEventListener('click', hideLightbox);
 
 prevButton.addEventListener('click', (e) => {
   e.stopPropagation();
@@ -1224,47 +1306,6 @@ nextButton.addEventListener('click', (e) => {
   currentImageIndex = (currentImageIndex + 1) % images.length;
   lightboxImage.src = images[currentImageIndex];
   resetZoom();
-});
-
-// Dokunmatik etkileşimler
-lightboxImage.addEventListener('touchstart', (e) => {
-  if (e.touches.length === 2) {
-    e.preventDefault();
-    startTouches = e.touches;
-  }
-}, { passive: false });
-
-lightboxImage.addEventListener('touchmove', (e) => {
-  if (e.touches.length === 2 && startTouches) {
-    e.preventDefault();
-    
-    const initialDistance = getDistance(startTouches);
-    const currentDistance = getDistance(e.touches);
-    const scale = Math.min(Math.max(currentDistance / initialDistance * currentScale, 1), 3);
-    
-    const midpoint = getMidpoint(e.touches);
-    const rect = lightboxImage.getBoundingClientRect();
-    const x = midpoint.x - rect.left;
-    const y = midpoint.y - rect.top;
-    
-    currentScale = scale;
-    lightboxImage.style.transform = `translate(${currentTranslateX}px, ${currentTranslateY}px) scale(${scale})`;
-    
-    if (scale > 1) {
-      isZoomed = true;
-      lightboxImage.classList.add('zoomed');
-    } else {
-      isZoomed = false;
-      lightboxImage.classList.remove('zoomed');
-    }
-  }
-}, { passive: false });
-
-lightboxImage.addEventListener('touchend', () => {
-  startTouches = null;
-  if (currentScale <= 1) {
-    resetZoom();
-  }
 });
 
 // Klavye kontrolü
