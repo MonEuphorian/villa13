@@ -299,37 +299,28 @@
 
   .lock-controls {
     position: relative;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 40px;
-    width: 220px;
-  }
-
-  .reset-btn-container {
-    position: absolute;
-    top: -80px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 5;
-  }
-
-  .tension-control {
-    grid-column: 2;
-    grid-row: 2;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+  }
+
+  .direction-controls {
+    display: flex;
+    gap: 20px;
     justify-content: center;
     align-items: center;
+    margin-bottom: 30px;
   }
 
   .control-btn {
-    width: 50px;
-    height: 50px;
+    width: 65px;
+    height: 65px;
     border: none;
     border-radius: 15px;
     background: linear-gradient(145deg, #323260, #1e1e3d);
     color: #fff;
-    font-size: 24px;
+    font-size: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -338,9 +329,6 @@
     box-shadow: 
       5px 5px 10px rgba(0,0,0,0.3),
       -5px -5px 10px rgba(255,255,255,0.05);
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    min-height: 44px; /* iOS minimum touch target size */
   }
 
   .control-btn:hover {
@@ -359,29 +347,20 @@
       inset -5px -5px 10px rgba(255,255,255,0.05);
   }
 
-  .control-btn.up {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  .control-btn.left {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  .control-btn.right {
-    grid-column: 3;
-    grid-row: 1;
+  .tension-control {
+    position: absolute;
+    left: -120px;
+    top: 0;
   }
 
   .tension-btn {
-    width: 55px;
-    height: 55px;
+    width: 70px;
+    height: 70px;
     border: none;
     border-radius: 50%;
     background: linear-gradient(145deg, #ff5555, #e63939);
     color: #fff;
-    font-size: 22px;
+    font-size: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -390,9 +369,6 @@
     box-shadow: 
       5px 5px 10px rgba(0,0,0,0.3),
       -5px -5px 10px rgba(255,255,255,0.1);
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    min-height: 44px; /* iOS minimum touch target size */
   }
 
   .tension-btn:hover {
@@ -417,6 +393,50 @@
     transform: scale(1);
     opacity: 0.7;
     box-shadow: none;
+  }
+
+  .reset-container {
+    position: absolute;
+    right: 0;
+    top: 95px;
+  }
+
+  .reset-btn {
+    width: 65px;
+    height: 65px;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #323260, #1e1e3d);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 
+      5px 5px 10px rgba(0,0,0,0.3),
+      -5px -5px 10px rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    text-align: center;
+  }
+
+  .reset-btn:hover {
+    background: linear-gradient(145deg, #3a3a6e, #252548);
+    transform: translateY(-2px);
+    box-shadow: 
+      8px 8px 15px rgba(0,0,0,0.3),
+      -8px -8px 15px rgba(255,255,255,0.05);
+  }
+
+  .reset-btn:active {
+    transform: translateY(0);
+    background: linear-gradient(145deg, #1e1e3d, #323260);
+    box-shadow: 
+      inset 5px 5px 10px rgba(0,0,0,0.3),
+      inset -5px -5px 10px rgba(255,255,255,0.05);
   }
 
   .active-pin {
@@ -490,29 +510,33 @@
       font-size: 14px;
     }
     .control-btn {
-      width: 60px; /* Daha büyük dokunma alanı */
-      height: 60px;
-      font-size: 28px; /* Daha büyük simgeler */
+      width: 70px;
+      height: 70px;
+      font-size: 30px;
     }
     .tension-btn {
-      width: 65px; /* Daha büyük dokunma alanı */
-      height: 65px;
-      font-size: 26px;
+      width: 75px;
+      height: 75px;
+      font-size: 28px;
     }
     .lock-controls {
-      gap: 25px;
       margin-top: 50px;
-      width: 240px;
     }
-    .reset-btn-container {
-      top: -100px;
+    .direction-controls {
+      gap: 25px;
+      margin-bottom: 35px;
     }
-    .controls {
-      margin-top: 30px;
+    .reset-btn {
+      width: 70px;
+      height: 70px;
+      font-size: 15px;
     }
-    button {
-      padding: 15px 40px;
-      font-size: 18px;
+    .tension-control {
+      left: -130px;
+    }
+    .reset-container {
+      right: 0;
+      top: 105px;
     }
   }
 
@@ -702,7 +726,7 @@
     </div>
 
     <div class="lock-controls">
-      <div class="reset-btn-container">
+      <div class="direction-controls">
         <button class="control-btn left">⬅️</button>
         <button class="control-btn up">⬆️</button>
         <button class="control-btn right">➡️</button>
@@ -710,10 +734,9 @@
       <div class="tension-control">
         <button class="tension-btn" id="tensionBtn">🔄</button>
       </div>
-    </div>
-
-    <div class="controls">
-      <button onclick="resetPins()">Sıfırla</button>
+      <div class="reset-container">
+        <button class="reset-btn" onclick="resetPins()">Sıfırla</button>
+      </div>
     </div>
   </div>
   
