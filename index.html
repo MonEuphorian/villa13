@@ -817,17 +817,22 @@
   <!-- Ses Efektleri -->
   <!-- 1. Pin doğru hizaya geldiğinde -->
   <audio id="clickSound" preload="auto">
-    <source src="https://www.soundjay.com/mechanical/sounds/lock-mechanism-1.mp3" type="audio/mpeg">
+    <source src="./sounds/click.wav" type="audio/wav">
   </audio>
   
   <!-- 2. Pin düştüğünde -->
   <audio id="dropSound" preload="auto">
-    <source src="https://www.soundjay.com/mechanical/sounds/pin-drop-1.mp3" type="audio/mpeg">
+    <source src="./sounds/drop.wav" type="audio/wav">
   </audio>
   
   <!-- 3. Kilit açıldığında -->
   <audio id="unlockSound" preload="auto">
-    <source src="https://www.soundjay.com/mechanical/sounds/door-unlock-1.mp3" type="audio/mpeg">
+    <source src="./sounds/unlock.wav" type="audio/wav">
+  </audio>
+
+  <!-- 4. Yukarı ok tuşuna basıldığında -->
+  <audio id="upSound" preload="auto">
+    <source src="./sounds/up.wav" type="audio/wav">
   </audio>
 
   <!-- Lightbox -->
@@ -1144,6 +1149,7 @@ function addEvents() {
   };
   
   upBtn.onclick = () => {
+    playSound('upSound');  // Yukarı ok sesi
     move(currentPin);
     animatePick();
   };
